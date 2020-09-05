@@ -1,0 +1,60 @@
+Installing nvidia NON-FREE drivers on arch like systems
+-------------------------------------------------------
+We talking about the hybrid nvidia prime shit...
+-------------------------------------------------------
+0.0	Install the Arch-like distro using free drivers
+   0.1	Remove bumblebee (if installed)
+1.0	Install nvidiaXXX from repos (or mhwd if manjaro)
+2.0	Goto /etc/X11/xorg.conf.d/
+   2.1  Make sure there is not a 90-mhwd.conf file (if exist delete it)
+   2.2  Create a file 90-mhwd.conf file with the following:
+	Section "Module"
+    		Load "modesetting"
+	EndSection
+
+	Section "Device"
+    		Identifier "nvidia"
+    		Driver "nvidia"
+    		BusID "PCI:1:0:0"
+    		Option "AllowEmptyInitialConfiguration"
+	EndSection	
+   2.3  Double check your  BusID with lspci | grep -E "VGA|3D"
+   2.4  If BusID is different then change the mhwd.conf file.
+3.0	Goto /etc/modprobe.d/
+   3.1  Remove everything nvidia related such as gpu.conf, nvidia.conf ect
+   3.2  Touch nvidia.conf with the following:
+	blacklist nouveau
+	blacklist nvidiafb
+	blacklist rivafb
+4.0	Goto /usr/local/bin
+   4.1  Create optimus.sh with the following
+	#!/bin/sh
+	xrandr --setprovideroutputsource modesetting NVIDIA-0
+	xrandr --auto
+   4.2  chmod a+rx /usr/local/bin/optimus.sh
+5.0	Check your desplay manager
+   5.1  Do one of the following procedures depending on your DM
+6.0	if LightDM
+		Edit /etc/lightdm/lightdm.conf and set
+		display-setup-script=/usr/local/bin/optimus.sh
+	if GMD
+		Create a new file,/usr/local/share/optimus.desktop
+		[Desktop Entry]
+		Type=Application
+		Name=Optimus
+		Exec=sh -c "xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto"
+		NoDisplay=true
+		X-GNOME-Autostart-Phase=DisplayServer
+		
+		After:
+		sudo ln -s /usr/local/share/optimus.desktop /usr/share/gdm/greeter/autostart/optimus.desktop
+		sudo ln -s /usr/local/share/optimus.desktop /etc/xdg/autostart/optimus.desktop
+	if SDDM
+		Create a new file, /usr/share/sddm/scripts/Xsetup
+		xrandr --setprovideroutputsource modesetting NVIDIA-0
+		xrandr --auto
+7.0 Reboot
+
+
+* The author of this wiki is jonathon originally written in forum.manjaro.org.  The problem is that 
+  Manjaro's forum has been nuked so consider this as a backup. It may come in handy when X refuses to start!
