@@ -1,0 +1,26 @@
+How to automount and autodecrypt secondary disks on Linux
+---------------------------------------------------------
+Using luks and assuming already encrypted
+---------------------------------------------------------
+I could tell you how to create a keyfile and unlock the drive
+then using fstab and crypttub and bla bla bla
+But NO!
+
+0.0		Open gnome-disks
+0.1		If gnome-disks not installed; install it
+1.0		Select your drive from the left panel	 
+	1.1 Click the gear icon 
+	1.2 Uncheck the User Session Defaults
+	1.3 Check unlock at system startup
+	1.4 Enter the passphrase 
+2.0 	Click on that gear again
+	2.1 select mount otions
+	2.2 Uncheck the User Session Defaults
+	2.3 Enter the desired location
+
+Mind that:
+	* You propably have to change the ownership of the directory using  
+	  sudo chown -R $USER:$USER /dir_path
+	* This method will create a file on your system with the passphrase of the 
+	  drive you want to mount
+	* Please consider using full disk encryption on your boot drive :)
