@@ -1,0 +1,16 @@
+Edit the /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common 
+file as root
+
+[Element PCM]
+switch = mute
+volume = ignore
+volume-limit = 0.01
+override-map.1 = all 
+override-map.2 = all-left,all-right
+
+Note that the value 0.01 can be adjusted as needed to change how quiet and loud the volume is. 
+Making the number smaller reduces the max volume while making the number larger increases the max volume.
+
+taken from
+
+https://chrisjean.com/fix-for-usb-audio-is-too-loud-and-mutes-at-low-volume-in-ubuntu/
