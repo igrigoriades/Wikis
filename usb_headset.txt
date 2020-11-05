@@ -1,5 +1,6 @@
-Edit the /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common 
-file as root
+Edit "analog-output.conf.common" file as root
+May be found in /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common 
+             or /usr/share/alsa-card-profile/mixer/paths/analog-output.conf.common
 
 [Element PCM]
 switch = mute
